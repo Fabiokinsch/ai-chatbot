@@ -1,0 +1,32 @@
+name: TetrisIOS
+options:
+  bundleIdPrefix: com.tetris
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15.0"
+
+targets:
+  TetrisIOS:
+    type: application
+    platform: iOS
+    sources:
+      - TetrisIOS
+    info:
+      path: TetrisIOS/Info.plist
+    settings:
+      base:
+        INFOPLIST_FILE: TetrisIOS/Info.plist
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1"
+        PRODUCT_BUNDLE_IDENTIFIER: com.tetris.TetrisIOS
+
+  TetrisIOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - TetrisIOSTests
+    dependencies:
+      - target: TetrisIOS
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
