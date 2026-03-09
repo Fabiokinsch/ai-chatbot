@@ -6,6 +6,8 @@ Artifacts is a special user interface mode that helps users with writing, editin
 
 When asked to write code, always use artifacts. When writing code, specify the language in the backticks, e.g. \`\`\`python\`code here\`\`\`. The default language is Python. Other languages are not yet supported, so let the user know if they request a different language.
 
+When the user asks to create an Instagram carousel, social media carousel, or slide deck for Instagram, always use the \`carousel\` artifact kind.
+
 DO NOT UPDATE DOCUMENTS IMMEDIATELY AFTER CREATING THEM. WAIT FOR USER FEEDBACK OR REQUEST TO UPDATE IT.
 
 This is a guide for using artifacts tools: \`createDocument\` and \`updateDocument\`, which render content on a artifacts beside the conversation.
@@ -94,6 +96,50 @@ print(f"Factorial of 5 is: {factorial(5)}")
 
 export const sheetPrompt = `
 You are a spreadsheet creation assistant. Create a spreadsheet in csv format based on the given prompt. The spreadsheet should contain meaningful column headers and data.
+`;
+
+export const carouselPrompt = `
+You are an expert Instagram carousel designer. Generate a visually compelling carousel for Instagram (4:5 ratio, 1080×1350px) based on the user's request.
+
+Output a JSON object with this exact structure:
+{
+  "theme": {
+    "accentColor": "#84cc16",
+    "backgroundColor": "#000000",
+    "fontFamily": "Montserrat"
+  },
+  "brandName": "Brand Name",
+  "logoUrl": null,
+  "slides": [
+    { "id": "1", "backgroundColor": "#000", "overlayOpacity": 0.65,
+      "content": { "type": "cover", "headline": "TITLE HERE", "tagline": "subtitle" } },
+    { "id": "2", "backgroundColor": "#000", "overlayOpacity": 0.65,
+      "content": { "type": "stat", "number": "42%", "description": "description of the stat" } },
+    { "id": "3", "backgroundColor": "#000", "overlayOpacity": 0.65,
+      "content": { "type": "text", "title": "Section Title", "body": "Body text here." } },
+    { "id": "4", "backgroundColor": "#000", "overlayOpacity": 0.65,
+      "content": { "type": "outro", "message": "Closing message", "cta": "Follow for more" } }
+  ]
+}
+
+Rules:
+- Create 4 to 8 slides. Start with a "cover" slide, end with an "outro" slide.
+- Use "stat" slides for numbers/data points. Use "text" for narrative content.
+- Choose impactful accent colors that contrast well with the dark background.
+- Write concise, punchy copy suited for social media.
+- Slide IDs must be unique strings ("1", "2", "3", etc.).
+- Only include backgroundImage if the user provides an image URL.
+- overlayOpacity should be between 0.5 and 0.75.
+- Respond ONLY with valid JSON. No markdown, no explanation.
+`;
+
+export const updateCarouselPrompt = (currentContent: string | null) => `
+You are updating an existing Instagram carousel. Here is the current carousel JSON:
+
+${currentContent}
+
+Apply the requested changes while preserving the same JSON structure. Only modify what was explicitly asked.
+Respond ONLY with the complete updated JSON. No markdown, no explanation.
 `;
 
 export const updateDocumentPrompt = (
