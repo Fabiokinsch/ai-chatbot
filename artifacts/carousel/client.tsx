@@ -315,10 +315,7 @@ function SlideEditor({
 }) {
   const c = slide.content;
 
-  const setField = <K extends keyof SlideContent>(
-    key: K,
-    value: string,
-  ) => {
+  const setField = (key: string, value: string) => {
     onChange({ ...slide, content: { ...c, [key]: value } as SlideContent });
   };
 
